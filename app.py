@@ -12,7 +12,8 @@ from prompts import RESUME_GENERATION_PROMPT, RESUME_WIZARD_PROMPT, RESUME_ENHAN
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))
+app.secret_key = os.environ["SECRET_KEY"]  # don't provide fallback
+
 
 # Configure upload folder to handle images (avoids session cookie overflow)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')

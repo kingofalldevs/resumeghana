@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="results-header">
+    <h2>Your Tailored Resume</h2>
+    <div class="button-group" style="margin-top: 0;">
+        <a href="{{ url_for('builder') }}" class="btn-secondary">Start Over</a>
+        <button onclick="window.print()" class="btn-primary">🖨️ Print / Save as PDF</button>
+    </div>
+</div>
+
+<div class="resume-paper" contenteditable="true">
+    {{ content | safe }}
+</div>
+
+<div style="text-align: center; margin-top: 2rem; color: var(--text-muted);">
+    <p>Tip: Click anywhere on the resume to edit text. Then print/save as PDF.</p>
+</div>
+{% endblock %}

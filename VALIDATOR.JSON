@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "name": "Prince Asante",
+    "target_title": "Senior Professional",
+    "job_level": "Senior",
+    "job_location": "Ghana"
+  },
+  "summary_inputs": {
+    "core_competencies": ["team leadership", "process improvement", "stakeholder collaboration"],
+    "primary_tools_or_methods": ["Project Management", "Customer Service"],
+    "industry": "Education",
+    "years_experience": 8,
+    "enhanced_summary": [],
+    "suggested_keywords": []
+  },
+  "experience": [
+    {
+      "role": "Senior Teacher",
+      "organization": "ABC School",
+      "start_year": 2016,
+      "end_year": 2024,
+      "bullet_intents": [
+        "delivered curriculum and lessons",
+        "mentored students and staff",
+        "coordinated school events",
+        "improved learning outcomes"
+      ],
+      "enhanced_bullets": [],
+      "tools_or_methods": ["Classroom management", "Lesson Planning"],
+      "seniority": "Senior",
+      "suggested_keywords": []
+    }
+  ],
+  "education": [
+    {
+      "degree": "Master of Education",
+      "field": "Education Leadership",
+      "institution": "Accra Teachers College",
+      "graduation_year": 2015,
+      "enhanced_education": [],
+      "suggested_keywords": []
+    }
+  ],
+  "skills": {
+    "technical_or_professional": ["Lesson Planning", "Curriculum Design", "Team Leadership"],
+    "soft": ["Collaboration", "Communication", "Problem Solving"],
+    "suggested_additional": []
+  },
+  "optional_sections": {
+    "certifications": ["TEFL Certificate", "First Aid"],
+    "suggested_certifications": [],
+    "projects": ["School Digital Literacy Program"],
+    "suggested_projects": [],
+    "languages": ["English", "Twi"],
+    "suggested_languages": [],
+    "links": {
+      "LinkedIn": "",
+      "GitHub": "",
+      "Portfolio": "",
+      "Personal Website": "",
+      "Twitter": ""
+    },
+    "suggested_links": []
+  },
+  "job_type": "Education"
+}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="results-header">
+    <h2>Resume Analysis</h2>
+    <div class="button-group" style="margin-top: 0;">
+        <a href="{{ url_for('builder') }}" class="btn-secondary">Analyze Another</a>
+        <a href="{{ url_for('tailor') }}" class="btn-primary">✨ Generate Tailored Resume</a>
+    </div>
+</div>
+
+<!-- Score Card -->
+<div class="score-card">
+    <div class="score-circle" style="--score: {{ analysis.score }}">
+        <span>{{ analysis.score }}</span>
+    </div>
+    <div class="score-summary">
+        <h3>ATS Readiness Score</h3>
+        <p>{{ analysis.summary }}</p>
+    </div>
+</div>
+
+<div class="grid-layout">
+    <!-- Strengths -->
+    <div class="card success">
+        <h3>✅ Strengths</h3>
+        <ul>
+            {% for item in analysis.strengths %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Weaknesses -->
+    <div class="card danger">
+        <h3>⚠️ Areas for Improvement</h3>
+        <ul>
+            {% for item in analysis.weaknesses %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Recommendations -->
+<div class="card info">
+    <h3>💡 Recommended Skills to Add</h3>
+    <div class="tags">
+        {% for skill in analysis.missing_skills %}
+            <span class="tag">{{ skill }}</span>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card warning">
+    <h3>📝 Formatting & Structure Advice</h3>
+    <p>{{ analysis.formatting_advice }}</p>
+</div>
+
+<!-- Rewrites -->
+<div class="card">
+    <h3>✨ Suggested Bullet Point Rewrites</h3>
+    <table class="rewrite-table">
+        {% for item in analysis.rewritten_bullets %}
+        <tr>
+            <td class="original-text">{{ item.original }}</td>
+            <td class="improved-text">{{ item.improved }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

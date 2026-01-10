@@ -304,4 +304,6 @@ def tailor():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    # Set debug based on environment variable, defaulting to False for production
+    debug_mode = os.environ.get("FLASK_DEBUG", "False").lower() in ['true', '1', 'on']
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)

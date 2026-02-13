@@ -1,8 +1,11 @@
 """
-Application entry point for ResumeGhana.
+WSGI entry point for ResumeGhana.
 """
+
 import os
 import sys
+
+# Load environment variables from .env if available
 try:
     from dotenv import load_dotenv
 except Exception:  # pragma: no cover
@@ -21,9 +24,5 @@ if os.environ.get("FLASK_ENV") == "production":
 
 from app import create_app
 
-app = create_app()
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    debug = os.environ.get("FLASK_DEBUG", "false").lower() in ("true", "1", "on")
-    app.run(host="0.0.0.0", port=port, debug=debug)
+app = create_app()

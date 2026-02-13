@@ -1,54 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="form-container" id="input-section">
-    <h2>Build & Analyze Your Resume</h2>
-    <p class="subtitle">Follow the 4-step wizard to create a professional, ATS-optimized resume.</p>
+<div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border border-gray-100" id="input-section">
+    <h2 class="text-xl sm:text-2xl font-bold mb-2">Build Your Resume</h2>
+    <p class="text-gray-600 mb-6 text-sm sm:text-base">Follow the 5-step wizard to create a professional, ATS-optimized resume.</p>
 
-    <!-- Progress Bar -->
-    <div style="display: flex; justify-content: space-between; margin-bottom: 30px; position: relative;">
-        <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #e5e7eb; z-index: 0;"></div>
-        <div class="step-indicator active" id="ind-1" style="width: 30px; height: 30px; background: #4f46e5; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; font-weight: bold;">1</div>
-        <div class="step-indicator" id="ind-2" style="width: 30px; height: 30px; background: #e5e7eb; color: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; font-weight: bold;">2</div>
-        <div class="step-indicator" id="ind-3" style="width: 30px; height: 30px; background: #e5e7eb; color: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; font-weight: bold;">3</div>
-        <div class="step-indicator" id="ind-4" style="width: 30px; height: 30px; background: #e5e7eb; color: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; font-weight: bold;">4</div>
+    <!-- Progress Bar - responsive -->
+    <div class="flex justify-between mb-6 sm:mb-8 relative max-w-lg mx-auto">
+        <div class="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2 z-0 mx-4"></div>
+        {% for i in range(1, 6) %}
+        <div class="step-indicator w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center z-10 font-bold text-sm sm:text-base {% if i == 1 %}bg-[#ff6600] text-white{% else %}bg-gray-200 text-gray-600{% endif %}" id="ind-{{ i }}">{{ i }}</div>
+        {% endfor %}
     </div>
     
-    <form method="POST" action="{{ url_for('builder') }}" id="resumeForm" enctype="multipart/form-data">
+    <form method="POST" action="{{ url_for('resume.builder') }}" id="resumeForm" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="template_name" id="template_name" value="modern_minimal">
         
         <!-- Step 1: Contact & Target -->
         <div class="form-step" id="step-1">
-            <h3>Step 1: Contact & Target</h3>
+            <h3 class="text-lg font-semibold mb-4">Step 1: Contact & Target</h3>
             <div class="form-group">
-                <label for="name">Legal Name</label>
-                <input type="text" id="name" name="name" placeholder="John Doe" required>
+                <label for="name" class="block font-medium text-gray-700 mb-1">Legal Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+233 XX XXX XXXX" required>
+                    <label for="phone" class="block font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+233 XX XXX XXXX" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
                 </div>
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    <label for="email" class="block font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="form-group">
-                    <label for="country">Country</label>
-                    <input type="text" id="country" name="country" placeholder="Ghana" required>
+                    <label for="country" class="block font-medium text-gray-700 mb-1">Country</label>
+                    <input type="text" id="country" name="country" placeholder="Ghana" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
                 </div>
                 <div class="form-group">
-                    <label for="photo">Passport Photo (Optional)</label>
-                    <input type="file" id="photo" name="photo" accept="image/*" style="padding-top: 10px;">
+                    <label for="profile_photo" class="block font-medium text-gray-700 mb-1">Passport Photo (Optional)</label>
+                    <input type="file" id="profile_photo" name="profile_photo" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#ff6600]/10 file:text-[#ff6600]">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="job_type">Job Industry</label>
-                <select id="job_type" name="job_type" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="job_type" class="block font-medium text-gray-700 mb-1">Job Industry</label>
+                <select id="job_type" name="job_type" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600] bg-white">
                     <option value="">Select Industry...</option>
                     <option value="Banking & Finance">Banking & Finance</option>
                     <option value="Software & IT">Software & IT</option>
@@ -61,10 +62,10 @@
                 </select>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="form-group">
-                    <label for="job_level">Job Level</label>
-                    <select id="job_level" name="job_level" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                    <label for="job_level" class="block font-medium text-gray-700 mb-1">Job Level</label>
+                    <select id="job_level" name="job_level" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600] bg-white">
                         <option value="">Select Level...</option>
                         <option value="Student">Student / Intern</option>
                         <option value="Junior">Junior (0-3 years)</option>
@@ -73,400 +74,541 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="years_experience">Years of Experience</label>
-                    <input type="number" id="years_experience" name="years_experience" placeholder="e.g. 5" min="0" step="0.5" required>
+                    <label for="years_experience" class="block font-medium text-gray-700 mb-1">Years of Experience</label>
+                    <input type="number" id="years_experience" name="years_experience" placeholder="e.g. 5" min="0" step="0.5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="form-group">
-                    <label for="location_target">Job Location Target</label>
-                    <select id="location_target" name="location_target" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                    <label for="location_target" class="block font-medium text-gray-700 mb-1">Job Location Target</label>
+                    <select id="location_target" name="location_target" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600] bg-white">
                         <option value="Ghana">Ghana</option>
                         <option value="International">International</option>
                         <option value="Remote">Remote</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="functional_focus">Functional Focus</label>
-                    <input type="text" id="functional_focus" name="functional_focus" placeholder="e.g. Operations, Sales, Development" required>
+                    <label for="functional_focus" class="block font-medium text-gray-700 mb-1">Functional Focus</label>
+                    <input type="text" id="functional_focus" name="functional_focus" placeholder="e.g. Operations, Sales, Development" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="role">Position Aspiring For</label>
-                <input type="text" id="role" name="role" placeholder="e.g. Senior Python Developer" required>
+                <label for="role" class="block font-medium text-gray-700 mb-1">Position Aspiring For</label>
+                <input type="text" id="role" name="role" placeholder="e.g. Senior Python Developer" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
             </div>
             
-            <div class="suggestion-box hidden" id="suggestions-1" style="margin-bottom: 20px;">
-                <div class="card info">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h4 style="margin: 0;">AI Suggestions</h4>
-                        <button type="button" class="btn-secondary" style="width: auto; padding: 5px 10px; font-size: 0.8rem;" onclick="getSuggestions(1)">🔄 Regenerate</button>
-                    </div>
-                    <div id="suggestion-content-1"></div>
-                </div>
-            </div>
-            <div class="button-group">
-                <button type="button" class="btn-secondary" id="suggest-btn-1" onclick="getSuggestions(1)">✨ Get AI Suggestions</button>
-                <button type="button" class="btn-primary" onclick="nextStep(2)">Continue to Experience</button>
+            <div class="flex flex-col-reverse sm:flex-row gap-3 mt-6">
+                <button type="button" class="px-5 py-3 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90 transition order-2 sm:order-1" onclick="nextStep(2)">Next: Experience →</button>
+                <button type="button" class="px-5 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 order-1 sm:order-2" id="suggest-btn-1" onclick="getSuggestions(1)">✨ Get AI Suggestions</button>
             </div>
         </div>
 
         <!-- Step 2: Experience -->
         <div class="form-step hidden" id="step-2">
-            <h3>Step 2: Experience</h3>
-            <div class="form-group">
-                <label for="experience">Work Experience</label>
-                <textarea id="experience" name="experience" rows="12" placeholder="For each role include:&#10;- Job Title&#10;- Company Name&#10;- Employment Type&#10;- Dates (Start - End)&#10;- Key Duties (Bullet points)&#10;&#10;Paste your work history here..." required></textarea>
-            </div>
-            <div class="suggestion-box hidden" id="suggestions-2" style="margin-bottom: 20px;">
-                <div class="card info">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h4 style="margin: 0;">AI Suggestions</h4>
-                        <button type="button" class="btn-secondary" style="width: auto; padding: 5px 10px; font-size: 0.8rem;" onclick="getSuggestions(2)">🔄 Regenerate</button>
+            <h3 class="text-lg font-semibold mb-4">Step 2: Work Experience</h3>
+            <p class="text-gray-600 text-sm mb-4">Add up to 5 work experiences. Each must include company, years, and what you did there.</p>
+            <div id="experience-blocks" class="space-y-6">
+                <!-- Experience 1 - always visible -->
+                <div class="experience-block border border-gray-200 rounded-lg p-4 bg-gray-50/50" data-index="0">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-medium text-gray-700">Experience 1</span>
+                        <button type="button" class="remove-exp hidden text-red-600 hover:text-red-700 text-sm" onclick="removeExperience(0)" title="Remove">✕</button>
                     </div>
-                    <div id="suggestion-content-2"></div>
+                    <div class="form-group">
+                        <label class="block font-medium text-gray-700 mb-1">Company</label>
+                        <input type="text" name="experience_0_company" placeholder="e.g. Acme Corp" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
+                    </div>
+                    <div class="form-group">
+                        <label class="block font-medium text-gray-700 mb-1">Years (e.g. 2020-2023)</label>
+                        <input type="text" name="experience_0_years" placeholder="e.g. 2020-2023" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
+                    </div>
+                    <div class="form-group">
+                        <label class="block font-medium text-gray-700 mb-1">What you did / skills used</label>
+                        <textarea name="experience_0_description" rows="4" placeholder="Key duties, achievements, tools used... (bullet points or paragraphs)" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea>
+                    </div>
                 </div>
             </div>
-            <div class="button-group">
-                <button type="button" class="btn-secondary" onclick="prevStep(1)">Back</button>
-                <button type="button" class="btn-secondary" id="suggest-btn-2" onclick="getSuggestions(2)">✨ Get AI Suggestions</button>
-                <button type="button" class="btn-primary" onclick="nextStep(3)">Continue to Education</button>
+            <button type="button" id="add-experience-btn" class="mt-4 flex items-center gap-2 px-4 py-2 border-2 border-dashed border-[#ff6600] text-[#ff6600] rounded-lg font-medium hover:bg-[#ff6600]/10 transition" onclick="addExperience()">
+                <span>+ Add Experience</span>
+            </button>
+            <input type="hidden" name="experience" id="experience_combined" value="">
+            <div class="flex flex-col-reverse sm:flex-row gap-3 mt-6">
+                <button type="button" class="px-5 py-3 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90" onclick="nextStep(3)">Next: Education →</button>
+                <button type="button" class="px-5 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50" onclick="prevStep(1)">← Back</button>
+                <button type="button" class="px-5 py-3 border border-[#ff6600] text-[#ff6600] rounded-lg font-medium hover:bg-[#ff6600]/10" id="suggest-btn-2" onclick="getSuggestions(2)">✨ Get AI Suggestions</button>
             </div>
         </div>
 
         <!-- Step 3: Education -->
         <div class="form-step hidden" id="step-3">
-            <h3>Step 3: Education</h3>
-            <div class="form-group">
-                <label for="education">Education</label>
-                <textarea id="education" name="education" rows="6" placeholder="University, Degree, Year..."></textarea>
-            </div>
-            <div class="suggestion-box hidden" id="suggestions-3" style="margin-bottom: 20px;">
-                <div class="card info">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h4 style="margin: 0;">AI Suggestions</h4>
-                        <button type="button" class="btn-secondary" style="width: auto; padding: 5px 10px; font-size: 0.8rem;" onclick="getSuggestions(3)">🔄 Regenerate</button>
+            <h3 class="text-lg font-semibold mb-4">Step 3: Education & Certifications</h3>
+            <p class="text-gray-600 text-sm mb-4">Add schools, degrees, or certifications with duration and skills/certificates earned.</p>
+            <div id="education-blocks" class="space-y-6">
+                <div class="education-block border border-gray-200 rounded-lg p-4 bg-gray-50/50" data-index="0">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-medium text-gray-700">Education 1</span>
+                        <button type="button" class="remove-edu hidden text-red-600 hover:text-red-700 text-sm" onclick="removeEducation(0)" title="Remove">✕</button>
                     </div>
-                    <div id="suggestion-content-3"></div>
+                    <div class="form-group">
+                        <label class="block font-medium text-gray-700 mb-1">School or Certification Name</label>
+                        <input type="text" name="education_0_school" placeholder="e.g. University of Ghana / AWS Certified" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
+                    </div>
+                    <div class="form-group">
+                        <label class="block font-medium text-gray-700 mb-1">Duration (e.g. 2018-2022 or 2023)</label>
+                        <input type="text" name="education_0_duration" placeholder="e.g. 2018-2022" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
+                    </div>
+                    <div class="form-group">
+                        <label class="block font-medium text-gray-700 mb-1">Degree, Skills & Certificates</label>
+                        <textarea name="education_0_skills" rows="3" placeholder="e.g. BSc Computer Science, relevant coursework, certificates earned..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea>
+                    </div>
                 </div>
             </div>
-            <div class="button-group">
-                <button type="button" class="btn-secondary" onclick="prevStep(2)">Back</button>
-                <button type="button" class="btn-secondary" id="suggest-btn-3" onclick="getSuggestions(3)">✨ Get AI Suggestions</button>
-                <button type="button" class="btn-primary" onclick="nextStep(4)">Continue to Skills</button>
+            <button type="button" id="add-education-btn" class="mt-4 flex items-center gap-2 px-4 py-2 border-2 border-dashed border-[#ff6600] text-[#ff6600] rounded-lg font-medium hover:bg-[#ff6600]/10 transition" onclick="addEducation()">
+                <span>+ Add Education / Certification</span>
+            </button>
+            <input type="hidden" name="education" id="education_combined" value="">
+            <div class="flex flex-col-reverse sm:flex-row gap-3 mt-6">
+                <button type="button" class="px-5 py-3 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90" onclick="nextStep(4)">Next: Skills →</button>
+                <button type="button" class="px-5 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50" onclick="prevStep(2)">← Back</button>
+                <button type="button" class="px-5 py-3 border border-[#ff6600] text-[#ff6600] rounded-lg font-medium hover:bg-[#ff6600]/10" id="suggest-btn-3" onclick="getSuggestions(3)">✨ Get AI Suggestions</button>
             </div>
         </div>
 
-        <!-- Step 4: Skills & Finalize -->
+        <!-- Step 4: Skills -->
         <div class="form-step hidden" id="step-4">
-            <h3>Step 4: Skills & Abilities</h3>
+            <h3 class="text-lg font-semibold mb-4">Step 4: Skills, Certificates & Abilities</h3>
             <div class="form-group">
-                <label for="skills">Skills (Comma separated)</label>
-                <textarea id="skills" name="skills" rows="3" placeholder="Python, Flask, SQL, AWS..." required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="abilities">Abilities & Strengths</label>
-                <textarea id="abilities" name="abilities" rows="3" placeholder="Leadership, Problem Solving, Team Management..."></textarea>
+                <label for="skills" class="block font-medium text-gray-700 mb-1">Skills (Comma separated)</label>
+                <textarea id="skills" name="skills" rows="3" placeholder="Python, Flask, SQL, AWS..." required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea>
             </div>
             <div class="form-group">
-                <label for="career_objective">Career Objective (Optional)</label>
-                <input type="text" id="career_objective" name="career_objective" placeholder="Briefly state your career goal...">
+                <label for="certifications" class="block font-medium text-gray-700 mb-1">Certificates (Optional)</label>
+                <textarea id="certifications" name="certifications" rows="2" placeholder="AWS Certified, PMP, Google Analytics..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea>
             </div>
             <div class="form-group">
-                <label for="links">Professional Links</label>
-                <textarea id="links" name="links" rows="2" placeholder="LinkedIn, GitHub, Portfolio..."></textarea>
+                <label for="abilities" class="block font-medium text-gray-700 mb-1">Abilities & Strengths</label>
+                <textarea id="abilities" name="abilities" rows="3" placeholder="Leadership, Problem Solving, Team Management..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea>
             </div>
-            <div class="suggestion-box hidden" id="suggestions-4" style="margin-bottom: 20px;">
-                <div class="card info">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h4 style="margin: 0;">AI Suggestions</h4>
-                        <button type="button" class="btn-secondary" style="width: auto; padding: 5px 10px; font-size: 0.8rem;" onclick="getSuggestions(4)">🔄 Regenerate</button>
-                    </div>
-                    <div id="suggestion-content-4"></div>
-                </div>
+            <div class="form-group">
+                <label for="career_objective" class="block font-medium text-gray-700 mb-1">Career Objective (Optional)</label>
+                <input type="text" id="career_objective" name="career_objective" placeholder="Briefly state your career goal..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
             </div>
-            <div class="button-group">
-                <button type="button" class="btn-secondary" onclick="prevStep(3)">Back</button>
-                <button type="button" class="btn-secondary" id="suggest-btn-4" onclick="getSuggestions(4)">✨ Get AI Suggestions</button>
-                <button type="button" class="btn-primary" onclick="showPreview()">Preview Resume</button>
+            <div class="form-group">
+                <label for="links" class="block font-medium text-gray-700 mb-1">Professional Links</label>
+                <textarea id="links" name="links" rows="2" placeholder="LinkedIn, GitHub, Portfolio..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea>
+            </div>
+            <div class="flex flex-col-reverse sm:flex-row flex-wrap gap-3 mt-6">
+                <button type="button" class="px-5 py-3 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90" onclick="nextStep(5)">Next: Choose Template →</button>
+                <button type="button" class="px-5 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50" onclick="prevStep(3)">← Back</button>
+                <button type="button" class="px-5 py-3 border border-[#ff6600] text-[#ff6600] rounded-lg font-medium hover:bg-[#ff6600]/10" id="suggest-btn-4" onclick="getSuggestions(4)">✨ Get AI Suggestions</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Choose Template -->
+        <div class="form-step hidden" id="step-5">
+            <h3 class="text-lg font-semibold mb-2">Step 5: Choose Template</h3>
+            <p class="text-gray-600 mb-4">Select a design for your resume.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                {% for t in templates or ['modern_minimal','corporate_professional','creative_designer','simple_ats'] %}
+                <label class="border-2 rounded-lg p-4 cursor-pointer hover:border-[#ff6600] transition template-option {% if t == 'modern_minimal' %}border-[#ff6600] bg-[#ff6600]/10{% else %}border-gray-200{% endif %}" data-template="{{ t }}">
+                    <input type="radio" name="template_radio" value="{{ t }}" {% if t == 'modern_minimal' %}checked{% endif %} class="sr-only">
+                    <span class="font-semibold block">{{ t.replace('_', ' ').title() }}</span>
+                    <p class="text-sm text-gray-500 mt-1">Professional design</p>
+                </label>
+                {% endfor %}
+            </div>
+            <div class="flex flex-col-reverse sm:flex-row gap-3 mt-6">
+                <button type="button" class="px-5 py-3 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90" onclick="showPreview()">Preview Resume</button>
+                <button type="button" class="px-5 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50" onclick="prevStep(4)">← Back</button>
             </div>
         </div>
     </form>
 </div>
 
-<!-- Preview Section (Hidden by default) -->
-<div class="form-container hidden" id="preview-section">
-    <h2>Resume Preview</h2>
-    <p class="subtitle">Review your details before submitting for AI analysis.</p>
+<!-- Preview Section -->
+<div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border border-gray-100 hidden" id="preview-section">
+    <h2 class="text-xl sm:text-2xl font-bold mb-2">Resume Preview</h2>
+    <p class="text-gray-600 mb-6">Review your details before submitting for AI analysis.</p>
 
-    <div class="preview-box">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div class="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200 mb-6">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
             <div>
-                <h3 id="prev-name"></h3>
-                <p><strong>Role:</strong> <span id="prev-role"></span> (<span id="prev-job-level"></span> - <span id="prev-job-type"></span>)</p>
-                <p><strong>Contact:</strong> <span id="prev-phone"></span> | <span id="prev-email"></span></p>
-                <p><strong>Location:</strong> <span id="prev-country"></span> (Target: <span id="prev-location-target"></span>)</p>
+                <h3 class="text-lg font-bold" id="prev-name"></h3>
+                <p class="text-sm text-gray-600"><strong>Role:</strong> <span id="prev-role"></span> (<span id="prev-job-level"></span> - <span id="prev-job-type"></span>)</p>
+                <p class="text-sm"><strong>Contact:</strong> <span id="prev-phone"></span> | <span id="prev-email"></span></p>
+                <p class="text-sm"><strong>Location:</strong> <span id="prev-country"></span> (Target: <span id="prev-location-target"></span>)</p>
             </div>
-            <img id="prev-photo-img" src="" alt="Profile Photo" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; display: none;">
+            <img id="prev-photo-img" src="" alt="Profile" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg hidden">
         </div>
-        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 1rem 0;">
-        
-        <h4>Skills</h4>
-        <p id="prev-skills"></p>
-
-        <h4>Abilities</h4>
-        <p id="prev-abilities"></p>
-        
-        <h4>Experience</h4>
-        <p id="prev-experience" class="preserve-lines"></p>
-        
-        <h4>Education</h4>
-        <p id="prev-education" class="preserve-lines"></p>
-
-        <h4>Professional Links</h4>
-        <p id="prev-links"></p>
+        <hr class="my-4 border-gray-200">
+        <div class="space-y-3 text-sm">
+            <div><strong>Skills</strong><p id="prev-skills" class="text-gray-700"></p></div>
+            <div><strong>Certificates</strong><p id="prev-certifications" class="text-gray-700"></p></div>
+            <div><strong>Abilities</strong><p id="prev-abilities" class="text-gray-700"></p></div>
+            <div><strong>Experience</strong><p id="prev-experience" class="text-gray-700 whitespace-pre-wrap"></p></div>
+            <div><strong>Education</strong><p id="prev-education" class="text-gray-700 whitespace-pre-wrap"></p></div>
+            <div><strong>Links</strong><p id="prev-links" class="text-gray-700"></p></div>
+        </div>
     </div>
 
-    <div class="button-group">
-        <button type="button" class="btn-secondary" onclick="editResume()">Edit</button>
-        <button type="button" class="btn-primary" id="submit-btn" onclick="submitResume()">Confirm & Analyze</button>
+    <div class="flex flex-col-reverse sm:flex-row gap-3">
+        <button type="button" class="px-5 py-3 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90" id="submit-btn" onclick="submitResume()">Choose Template</button>
+        <button type="button" class="px-5 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50" onclick="editResume()">Edit</button>
+    </div>
+</div>
+
+<!-- AI Suggestions Modal -->
+<div id="suggestions-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50" onclick="closeSuggestionsModal()"></div>
+    <div class="absolute inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-2xl sm:w-full sm:max-h-[85vh] bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden">
+        <div class="flex justify-between items-center p-4 border-b border-gray-200">
+            <h3 class="text-lg font-bold text-gray-900">✨ AI Suggestions</h3>
+            <button type="button" onclick="closeSuggestionsModal()" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full" aria-label="Close">✕</button>
+        </div>
+        <div id="suggestions-modal-content" class="p-4 overflow-y-auto flex-1 text-sm"></div>
+        <div class="p-4 border-t border-gray-200 flex justify-between">
+            <button type="button" onclick="getSuggestions(window._suggestionsStep)" class="px-4 py-2 border border-[#ff6600] text-[#ff6600] rounded-lg font-medium hover:bg-[#ff6600]/10">Regenerate</button>
+            <button type="button" onclick="closeSuggestionsModal()" class="px-4 py-2 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90">Done</button>
+        </div>
     </div>
 </div>
 
 <script>
     function nextStep(step) {
-        // Simple validation for Step 1
         if (step === 2) {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            if (!name || !phone) { alert('Please fill in required fields'); return; }
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            if (!name || !phone) { alert('Please fill in Name and Phone'); return; }
+        }
+        if (step === 3) {
+            const co = document.querySelector('[name="experience_0_company"]');
+            const yr = document.querySelector('[name="experience_0_years"]');
+            const desc = document.querySelector('[name="experience_0_description"]');
+            if (!co || !yr || !desc || !co.value.trim() || !yr.value.trim() || !desc.value.trim()) {
+                alert('Please fill in at least one experience (Company, Years, and description).'); return;
+            }
         }
         
         document.querySelectorAll('.form-step').forEach(el => el.classList.add('hidden'));
-        document.getElementById('step-' + step).classList.remove('hidden');
+        const target = document.getElementById('step-' + step);
+        if (target) target.classList.remove('hidden');
         
-        // Update indicators
-        document.querySelectorAll('.step-indicator').forEach(el => {
-            el.style.background = '#e5e7eb'; el.style.color = '#666';
+        document.querySelectorAll('.step-indicator').forEach((el, i) => {
+            const n = i + 1;
+            el.className = 'step-indicator w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center z-10 font-bold text-sm sm:text-base ' + (n <= step ? 'bg-[#ff6600] text-white' : 'bg-gray-200 text-gray-600');
         });
-        document.getElementById('ind-' + step).style.background = '#4f46e5';
-        document.getElementById('ind-' + step).style.color = 'white';
         
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }
 
-    function prevStep(step) {
-        nextStep(step);
+    document.querySelectorAll('.template-option').forEach(el => {
+        el.addEventListener('click', function() {
+            document.querySelectorAll('.template-option').forEach(o => { o.classList.remove('border-[#ff6600]', 'bg-[#ff6600]/10'); o.classList.add('border-gray-200'); });
+            this.classList.remove('border-gray-200'); this.classList.add('border-[#ff6600]', 'bg-[#ff6600]/10');
+            document.getElementById('template_name').value = this.dataset.template;
+        });
+    });
+
+    function prevStep(step) { nextStep(step); }
+
+    let experienceCount = 1;
+    const MAX_EXPERIENCES = 5;
+
+    function addExperience() {
+        if (experienceCount >= MAX_EXPERIENCES) return;
+        const i = experienceCount;
+        const block = document.createElement('div');
+        block.className = 'experience-block border border-gray-200 rounded-lg p-4 bg-gray-50/50';
+        block.dataset.index = i;
+        block.innerHTML = `
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-medium text-gray-700">Experience ${i + 1}</span>
+                <button type="button" class="remove-exp text-red-600 hover:text-red-700 text-sm" onclick="removeExperience(${i})" title="Remove">✕</button>
+            </div>
+            <div class="form-group">
+                <label class="block font-medium text-gray-700 mb-1">Company</label>
+                <input type="text" name="experience_${i}_company" placeholder="e.g. Acme Corp" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
+            </div>
+            <div class="form-group">
+                <label class="block font-medium text-gray-700 mb-1">Years (e.g. 2020-2023)</label>
+                <input type="text" name="experience_${i}_years" placeholder="e.g. 2020-2023" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]">
+            </div>
+            <div class="form-group">
+                <label class="block font-medium text-gray-700 mb-1">What you did / skills used</label>
+                <textarea name="experience_${i}_description" rows="4" placeholder="Key duties, achievements, tools used..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea>
+            </div>
+        `;
+        document.getElementById('experience-blocks').appendChild(block);
+        experienceCount++;
+        if (experienceCount >= MAX_EXPERIENCES) document.getElementById('add-experience-btn').classList.add('hidden');
+        document.querySelectorAll('.experience-block .remove-exp').forEach((btn, idx) => { btn.classList.toggle('hidden', experienceCount <= 1); });
+    }
+
+    function removeExperience(idx) {
+        const block = document.querySelector('.experience-block[data-index="' + idx + '"]');
+        if (!block || experienceCount <= 1) return;
+        block.remove();
+        experienceCount = document.querySelectorAll('.experience-block').length;
+        document.getElementById('add-experience-btn').classList.remove('hidden');
+        document.querySelectorAll('.experience-block .remove-exp').forEach((btn) => { btn.classList.toggle('hidden', experienceCount <= 1); });
+        reindexExperiences();
+    }
+
+    function reindexExperiences() {
+        document.querySelectorAll('.experience-block').forEach((block, i) => {
+            block.dataset.index = i;
+            block.querySelector('span').textContent = 'Experience ' + (i + 1);
+            const inputs = block.querySelectorAll('[name^="experience_"]');
+            inputs.forEach(inp => {
+                const m = inp.name.match(/experience_(\d+)_(company|years|description)/);
+                if (m) inp.name = 'experience_' + i + '_' + m[2];
+            });
+            const rm = block.querySelector('.remove-exp');
+            if (rm) rm.setAttribute('onclick', 'removeExperience(' + i + ')');
+        });
+    }
+
+    function buildExperienceString() {
+        let parts = [];
+        for (let i = 0; i < experienceCount; i++) {
+            const co = document.querySelector(`[name="experience_${i}_company"]`);
+            const yr = document.querySelector(`[name="experience_${i}_years"]`);
+            const desc = document.querySelector(`[name="experience_${i}_description"]`);
+            if (co && yr && desc && (co.value.trim() || yr.value.trim() || desc.value.trim())) {
+                parts.push(`${co.value.trim()} (${yr.value.trim()})\n${desc.value.trim()}`);
+            }
+        }
+        const combined = document.getElementById('experience_combined');
+        if (combined) combined.value = parts.join('\n\n---\n\n');
+        return parts.length > 0;
+    }
+
+    function openSuggestionsModal() {
+        document.getElementById('suggestions-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeSuggestionsModal() {
+        document.getElementById('suggestions-modal').classList.add('hidden');
+        document.body.style.overflow = '';
     }
 
     async function getSuggestions(step) {
-        const btn = document.getElementById(`suggest-btn-${step}`);
-        const container = document.getElementById(`suggestions-${step}`);
-        const content = document.getElementById(`suggestion-content-${step}`);
+        const btn = document.getElementById('suggest-btn-' + step);
+        const content = document.getElementById('suggestions-modal-content');
+        if (!btn || !content) return;
+        window._suggestionsStep = step;
         
-        // Collect data
         const formData = {};
-        const inputs = document.getElementById(`step-${step}`).querySelectorAll('input, select, textarea');
-        inputs.forEach(input => formData[input.name] = input.value);
-        
-        // Add job_type and role from step 1 if we are in later steps, as context is needed
-        if (step > 1) {
-            formData['job_type'] = document.getElementById('job_type').value;
-            formData['role'] = document.getElementById('role').value;
-            formData['job_level'] = document.getElementById('job_level').value;
+        const stepEl = document.getElementById('step-' + step);
+        if (stepEl) stepEl.querySelectorAll('input, select, textarea').forEach(input => { if (input.name && input.name !== 'experience_combined') formData[input.name] = input.value; });
+        if (step === 2) {
+            let expStr = '';
+            for (let i = 0; i < experienceCount; i++) {
+                const co = document.querySelector('[name="experience_' + i + '_company"]');
+                const yr = document.querySelector('[name="experience_' + i + '_years"]');
+                const desc = document.querySelector('[name="experience_' + i + '_description"]');
+                if (co && yr && desc && (co.value.trim() || yr.value.trim() || desc.value.trim()))
+                    expStr += (co.value.trim() + ' (' + yr.value.trim() + ')\n' + desc.value.trim()).trim() + '\n\n';
+            }
+            formData.experience = expStr.trim();
+        }
+        if (step === 3) {
+            let eduStr = '';
+            for (let i = 0; i < (typeof educationCount !== 'undefined' ? educationCount : 1); i++) {
+                const sch = document.querySelector('[name="education_' + i + '_school"]');
+                const dur = document.querySelector('[name="education_' + i + '_duration"]');
+                const sk = document.querySelector('[name="education_' + i + '_skills"]');
+                if (sch && dur && sk && (sch.value.trim() || dur.value.trim() || sk.value.trim()))
+                    eduStr += (sch.value.trim() + ' (' + dur.value.trim() + ')\n' + sk.value.trim()).trim() + '\n\n';
+            }
+            formData.education = eduStr.trim();
+        }
+        if (step >= 2) {
+            const jt = document.getElementById('job_type'); if (jt) formData.job_type = jt.value;
+            const r = document.getElementById('role'); if (r) formData.role = r.value;
+            const jl = document.getElementById('job_level'); if (jl) formData.job_level = jl.value;
         }
 
         btn.disabled = true;
-        btn.innerHTML = 'Thinking... <span class="spinner"></span>';
-        
+        btn.textContent = 'Thinking...';
         try {
-            const response = await fetch('/api/suggest', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({step, formData})
-            });
-            const data = await response.json();
-            
+            const res = await fetch('{{ url_for("ai.suggest") }}', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({step, formData}) });
+            const data = await res.json();
+            if (!res.ok) {
+                const errMsg = (data && data.error) ? data.error : 'Error getting suggestions.';
+                throw new Error(errMsg);
+            }
             let html = '';
-
-            // Handle Wizard Response (Step 1 & 3)
+            window._lastSuggestions = data;
             if (data.review) {
-                html += `<p><strong>Review:</strong> ${data.review}</p>`;
-                if (data.suggestions && data.suggestions.length > 0) {
-                    html += `<ul>${data.suggestions.map(s => `<li>${s}</li>`).join('')}</ul>`;
+                html += '<p class="mb-3">' + (data.review || '').replace(/</g,'&lt;') + '</p>';
+                if (data.suggestions && data.suggestions.length) html += '<ul class="list-disc ml-4 space-y-1 mb-3">' + data.suggestions.map(s => '<li>' + (s+'').replace(/</g,'&lt;') + '</li>').join('') + '</ul>';
+                if (data.keywords && data.keywords.length) {
+                    const addFn = (step === 3) ? 'addEducationKeyword' : 'addKeywordStep1';
+                    html += '<p class="font-medium mb-2">Keywords (click to add):</p><div class="flex flex-wrap gap-2">' + data.keywords.map(k => '<button type="button" class="px-3 py-1.5 bg-[#ff6600]/10 rounded-lg text-xs hover:bg-[#ff6600]/20" onclick="' + addFn + '(\'' + (k+'').replace(/'/g,"\\'") + '\')">+ ' + (k+'').replace(/</g,'&lt;') + '</button>').join('') + '</div>';
                 }
-                if (data.keywords && data.keywords.length > 0) {
-                    html += `<p><strong>Recommended Keywords:</strong> <div class="tags">${data.keywords.map(k => `<span class="tag">${k}</span>`).join('')}</div></p>`;
-                }
+            } else if (data.experience && step === 2) {
+                const exp = data.experience[0] || {};
+                if (exp.enhanced_bullets && exp.enhanced_bullets.length) html += '<p class="mb-2 font-medium">Click to add to Experience:</p><div class="flex flex-col gap-2">' + exp.enhanced_bullets.map((b, idx) => '<button type="button" class="text-left px-3 py-2 border border-[#ff6600]/40 rounded-lg hover:bg-[#ff6600]/10 hover:border-[#ff6600] transition" onclick="addTextToExperience(' + idx + '); this.classList.add(\'bg-green-100\',\'border-green-400\')">+ ' + (b.length > 80 ? b.substring(0,80) + '...' : (b.replace(/</g,'&lt;').replace(/>/g,'&gt;'))) + '</button>').join('') + '</div>';
+                if (exp.suggested_keywords && exp.suggested_keywords.length) html += '<p class="mt-3 font-medium">Keywords to include:</p><div class="flex flex-wrap gap-2 mt-1">' + exp.suggested_keywords.map(k => '<button type="button" class="px-3 py-1.5 bg-[#ff6600]/10 rounded-lg text-xs hover:bg-[#ff6600]/20" onclick="addTextToExperienceKeyword(\'' + (k+'').replace(/'/g,"\\'") + '\')">+ ' + k + '</button>').join('') + '</div>';
+            } else if (data.skills && step === 4) {
+                if (data.skills.suggested_additional && data.skills.suggested_additional.length) html += '<p class="font-medium mb-2">Skills (click to add):</p><div class="flex flex-wrap gap-2 mb-3">' + data.skills.suggested_additional.map(s => '<button type="button" class="px-3 py-1.5 bg-[#ff6600]/10 rounded-lg text-xs hover:bg-[#ff6600]/20" onclick="addText(\'skills\', \'' + (s+'').replace(/'/g, "\\'") + '\', true)">+ ' + (s+'').replace(/</g,'&lt;') + '</button>').join('') + '</div>';
+                if (data.summary && data.summary.suggested_abilities && data.summary.suggested_abilities.length) html += '<p class="font-medium mb-2">Abilities (click to add):</p><div class="flex flex-wrap gap-2 mb-3">' + data.summary.suggested_abilities.map(a => '<button type="button" class="px-3 py-1.5 bg-[#ff6600]/10 rounded-lg text-xs hover:bg-[#ff6600]/20" onclick="addText(\'abilities\', \'' + (a+'').replace(/'/g, "\\'") + '\', true)">+ ' + (a+'').replace(/</g,'&lt;') + '</button>').join('') + '</div>';
+                if (data.summary && data.summary.suggested_objective) html += '<p class="font-medium mb-2">Suggested objective:</p><button type="button" class="block w-full text-left px-3 py-2 border border-[#ff6600]/40 rounded-lg hover:bg-[#ff6600]/10" onclick="fillField(\'career_objective\', \'' + (data.summary.suggested_objective || '').replace(/'/g, "\\'").replace(/"/g,'&quot;') + '\')">+ Use this objective</button>';
             }
-            
-            // Handle Enhancer Response (Step 2 - Experience)
-            else if (data.experience && step === 2) {
-                const expData = data.experience.length > 0 ? data.experience[0] : {};
-                if (expData.enhanced_bullets && expData.enhanced_bullets.length > 0) {
-                    html += `<p><strong>Click to Add Enhanced Bullets:</strong></p>`;
-                    html += `<div style="display: flex; flex-direction: column; gap: 10px;">`;
-                    expData.enhanced_bullets.forEach(bullet => {
-                        html += `<button type="button" class="btn-secondary" style="text-align: left; font-size: 0.9rem; padding: 8px;" onclick="addText('experience', '${bullet.replace(/'/g, "\\'")}')">➕ ${bullet}</button>`;
-                    });
-                    html += `</div>`;
-                }
-                if (expData.suggested_keywords && expData.suggested_keywords.length > 0) {
-                    html += `<p style="margin-top: 15px;"><strong>Keywords:</strong> <div class="tags">${expData.suggested_keywords.map(k => `<span class="tag">${k}</span>`).join('')}</div></p>`;
-                }
-            }
-            
-            // Handle Enhancer Response (Step 4 - Skills)
-            else if (data.skills && step === 4) {
-                if (data.skills.suggested_additional && data.skills.suggested_additional.length > 0) {
-                    html += `<p><strong>Click to Add Skills:</strong></p>`;
-                    html += `<div class="tags">`;
-                    data.skills.suggested_additional.forEach(skill => {
-                        html += `<span class="tag" style="cursor: pointer; border: 1px solid var(--primary);" onclick="addText('skills', '${skill.replace(/'/g, "\\'")}', true)">➕ ${skill}</span>`;
-                    });
-                    html += `</div>`;
-                }
-
-                if (data.summary) {
-                    if (data.summary.suggested_abilities && data.summary.suggested_abilities.length > 0) {
-                        html += `<p style="margin-top: 15px;"><strong>Click to Add Abilities:</strong></p>`;
-                        html += `<div class="tags">`;
-                        data.summary.suggested_abilities.forEach(ability => {
-                            html += `<span class="tag" style="cursor: pointer; border: 1px solid var(--primary); background: #fff7ed; color: #c2410c;" onclick="addText('abilities', '${ability.replace(/'/g, "\\'")}', true)">➕ ${ability}</span>`;
-                        });
-                        html += `</div>`;
-                    }
-                    if (data.summary.suggested_objective) {
-                        html += `<p style="margin-top: 15px;"><strong>Suggested Objective:</strong></p>`;
-                        html += `<div style="background: #f9fafb; padding: 10px; border-radius: 6px; border: 1px solid #e5e7eb; font-size: 0.9rem;">${data.summary.suggested_objective}</div>`;
-                        html += `<button type="button" class="btn-secondary" style="margin-top: 5px; font-size: 0.8rem; padding: 5px 10px;" onclick="fillField('career_objective', '${data.summary.suggested_objective.replace(/'/g, "\\'")}')">Use this Objective</button>`;
-                    }
-                }
-                
-                if (data.optional_sections && data.optional_sections.suggested_links && data.optional_sections.suggested_links.length > 0) {
-                     html += `<p style="margin-top: 15px;"><strong>Suggested Links:</strong></p>`;
-                     html += `<div class="tags">`;
-                     data.optional_sections.suggested_links.forEach(link => {
-                        html += `<span class="tag" style="cursor: pointer; border: 1px solid var(--primary); background: #f0fdf4; color: #166534;" onclick="addText('links', '${link.replace(/'/g, "\\'")}', true)">➕ ${link}</span>`;
-                     });
-                     html += `</div>`;
-                }
-            }
-
-            if (!html) {
-                html = '<p style="color: #666; font-style: italic;">No specific suggestions available yet. Try adding more details.</p>';
-            }
-            
-            content.innerHTML = html;
-            container.classList.remove('hidden');
+            if (!html) html = '<p class="text-gray-500 italic">No suggestions yet. Add more details and try again.</p>';
+            content.innerHTML = '<div class="space-y-4">' + html + '</div><p class="mt-4 text-xs text-gray-500">Click any suggestion to add it to your form. Close when done.</p>';
+            openSuggestionsModal();
         } catch (e) {
-            alert('Error getting suggestions');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = '✨ Get AI Suggestions';
+            const msg = (e && e.message) ? e.message : 'Error getting suggestions';
+            content.innerHTML = '<div class="p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"><strong>AI Suggestions unavailable:</strong> ' + msg.replace(/</g,'&lt;') + '</div><p class="mt-3 text-xs text-gray-500">If this says HF_API_TOKEN not set, add your Hugging Face token to your local <code>.env</code> file and restart the server.</p>';
+            openSuggestionsModal();
         }
+        finally { btn.disabled = false; btn.textContent = '✨ Get AI Suggestions'; }
     }
 
-    function addText(fieldId, text, isCommaSeparated = false) {
-        const field = document.getElementById(fieldId);
-        if (isCommaSeparated) {
-            if (field.value.trim().length > 0) {
-                field.value += ', ' + text;
-            } else {
-                field.value = text;
-            }
-        } else {
-            field.value += '\n• ' + text;
-        }
+    function addText(fieldId, text, isComma) {
+        const f = document.getElementById(fieldId); if (!f) return;
+        f.value = isComma ? (f.value.trim() ? f.value + ', ' + text : text) : f.value + '\n• ' + text;
     }
+    function addTextToExperience(idx) {
+        const data = window._lastSuggestions;
+        const bullets = data && data.experience && data.experience[0] && data.experience[0].enhanced_bullets;
+        const text = bullets && bullets[idx];
+        if (!text) return;
+        const desc = document.querySelector('[name="experience_0_description"]');
+        if (desc) desc.value = (desc.value.trim() ? desc.value + '\n• ' : '') + text;
+    }
+    function addTextToExperienceKeyword(k) {
+        const desc = document.querySelector('[name="experience_0_description"]');
+        if (desc) desc.value = (desc.value.trim() ? desc.value + ', ' : '') + k;
+    }
+    function addKeywordStep1(k) {
+        const role = document.getElementById('role');
+        if (role) role.value = (role.value.trim() ? role.value + ', ' : '') + k;
+    }
+    function addEducationKeyword(k) {
+        const sk = document.querySelector('[name="education_0_skills"]');
+        if (sk) sk.value = (sk.value.trim() ? sk.value + ', ' : '') + k;
+    }
+    function fillField(id, text) { const f = document.getElementById(id); if (f) f.value = text; }
 
-    function fillField(fieldId, text) {
-        const field = document.getElementById(fieldId);
-        field.value = text;
+    let educationCount = 1;
+    const MAX_EDUCATION = 5;
+    function addEducation() {
+        if (educationCount >= MAX_EDUCATION) return;
+        const i = educationCount;
+        const block = document.createElement('div');
+        block.className = 'education-block border border-gray-200 rounded-lg p-4 bg-gray-50/50';
+        block.dataset.index = i;
+        block.innerHTML = '<div class="flex justify-between items-center mb-3"><span class="font-medium text-gray-700">Education ' + (i+1) + '</span><button type="button" class="remove-edu text-red-600 hover:text-red-700 text-sm" onclick="removeEducation(' + i + ')" title="Remove">✕</button></div><div class="form-group"><label class="block font-medium text-gray-700 mb-1">School or Certification Name</label><input type="text" name="education_' + i + '_school" placeholder="e.g. University of Ghana / AWS Certified" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></div><div class="form-group"><label class="block font-medium text-gray-700 mb-1">Duration (e.g. 2018-2022 or 2023)</label><input type="text" name="education_' + i + '_duration" placeholder="e.g. 2018-2022" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></div><div class="form-group"><label class="block font-medium text-gray-700 mb-1">Degree, Skills & Certificates</label><textarea name="education_' + i + '_skills" rows="3" placeholder="e.g. BSc Computer Science, certificates..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-[#ff6600]"></textarea></div>';
+        document.getElementById('education-blocks').appendChild(block);
+        educationCount++;
+        if (educationCount >= MAX_EDUCATION) document.getElementById('add-education-btn').classList.add('hidden');
+        document.querySelectorAll('.education-block .remove-edu').forEach(btn => btn.classList.toggle('hidden', educationCount <= 1));
+    }
+    function removeEducation(idx) {
+        const block = document.querySelector('.education-block[data-index="' + idx + '"]');
+        if (!block || educationCount <= 1) return;
+        block.remove();
+        educationCount = document.querySelectorAll('.education-block').length;
+        document.getElementById('add-education-btn').classList.remove('hidden');
+        document.querySelectorAll('.education-block .remove-edu').forEach(btn => btn.classList.toggle('hidden', educationCount <= 1));
+        reindexEducation();
+    }
+    function reindexEducation() {
+        document.querySelectorAll('.education-block').forEach((block, i) => {
+            block.dataset.index = i;
+            block.querySelector('span').textContent = 'Education ' + (i + 1);
+            block.querySelectorAll('[name^="education_"]').forEach(inp => {
+                const m = inp.name.match(/education_(\d+)_(school|duration|skills)/);
+                if (m) inp.name = 'education_' + i + '_' + m[2];
+            });
+            const rm = block.querySelector('.remove-edu');
+            if (rm) rm.setAttribute('onclick', 'removeEducation(' + i + ')');
+        });
+    }
+    function buildEducationString() {
+        let parts = [];
+        for (let i = 0; i < educationCount; i++) {
+            const sch = document.querySelector('[name="education_' + i + '_school"]');
+            const dur = document.querySelector('[name="education_' + i + '_duration"]');
+            const sk = document.querySelector('[name="education_' + i + '_skills"]');
+            if (sch && dur && sk && (sch.value.trim() || dur.value.trim() || sk.value.trim()))
+                parts.push((sch.value.trim() || '') + ' (' + (dur.value.trim() || '') + ')\n' + (sk.value.trim() || ''));
+        }
+        const el = document.getElementById('education_combined');
+        if (el) el.value = parts.join('\n\n---\n\n');
     }
 
     function showPreview() {
-        const name = document.getElementById('name').value;
-        const phone = document.getElementById('phone').value;
-        const email = document.getElementById('email').value;
-        const country = document.getElementById('country').value;
-        const jobType = document.getElementById('job_type').value;
-        const jobLevel = document.getElementById('job_level').value;
-        const yearsExp = document.getElementById('years_experience').value;
-        const locTarget = document.getElementById('location_target').value;
-        const funcFocus = document.getElementById('functional_focus').value;
-        const role = document.getElementById('role').value;
-        const skills = document.getElementById('skills').value;
-        const abilities = document.getElementById('abilities').value;
-        const experience = document.getElementById('experience').value;
-        const education = document.getElementById('education').value;
-        const links = document.getElementById('links').value;
-        const photoInput = document.getElementById('photo');
-
-        if(!name || !role || !skills || !experience || !phone || !email || !country || !jobType || !jobLevel || !yearsExp || !locTarget || !funcFocus) {
-            alert("Please fill in all required fields.");
-            return;
-        }
-
-        // Validate Links
-        if (links) {
-            const items = links.split(',');
-            const urlRegex = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-            for (let item of items) {
-                item = item.trim();
-                if (item && !urlRegex.test(item)) {
-                    alert(`Invalid URL detected: "${item}". Please enter a valid URL (e.g., linkedin.com/in/name).`);
-                    return;
-                }
+        const getName = (id) => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+        const getExp = () => {
+            let s = '';
+            for (let i = 0; i < experienceCount; i++) {
+                const co = document.querySelector('[name="experience_' + i + '_company"]');
+                const yr = document.querySelector('[name="experience_' + i + '_years"]');
+                const desc = document.querySelector('[name="experience_' + i + '_description"]');
+                if (co && yr && desc && (co.value.trim() || yr.value.trim() || desc.value.trim()))
+                    s += (co.value.trim() + ' (' + yr.value.trim() + ')\n' + desc.value.trim()).trim() + '\n\n';
             }
+            return s.trim();
+        };
+        const getEdu = () => {
+            let s = '';
+            for (let i = 0; i < (typeof educationCount !== 'undefined' ? educationCount : 1); i++) {
+                const sch = document.querySelector('[name="education_' + i + '_school"]');
+                const dur = document.querySelector('[name="education_' + i + '_duration"]');
+                const sk = document.querySelector('[name="education_' + i + '_skills"]');
+                if (sch && dur && sk && (sch.value.trim() || dur.value.trim() || sk.value.trim()))
+                    s += (sch.value.trim() + ' (' + dur.value.trim() + ')\n' + sk.value.trim()).trim() + '\n\n';
+            }
+            return s.trim();
+        };
+        if (!getName('name') || !getName('phone') || !getName('email') || !getName('country') || !getName('job_type') || !getName('job_level') || !getName('location_target') || !getName('functional_focus') || !getName('role') || !getName('skills') || !getExp()) {
+            alert('Please fill in all required fields including at least one experience.'); return;
         }
+        const setPrev = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val || ''; };
+        setPrev('prev-name', getName('name'));
+        setPrev('prev-role', getName('role'));
+        setPrev('prev-phone', getName('phone'));
+        setPrev('prev-email', getName('email'));
+        setPrev('prev-country', getName('country'));
+        setPrev('prev-job-type', getName('job_type'));
+        setPrev('prev-job-level', getName('job_level'));
+        setPrev('prev-location-target', getName('location_target'));
+        setPrev('prev-skills', getName('skills'));
+        setPrev('prev-certifications', getName('certifications'));
+        setPrev('prev-abilities', getName('abilities'));
+        setPrev('prev-experience', getExp());
+        setPrev('prev-education', getEdu());
+        setPrev('prev-links', getName('links'));
 
-        document.getElementById('prev-name').textContent = name;
-        document.getElementById('prev-phone').textContent = phone;
-        document.getElementById('prev-email').textContent = email;
-        document.getElementById('prev-country').textContent = country;
-        document.getElementById('prev-job-type').textContent = jobType;
-        document.getElementById('prev-job-level').textContent = jobLevel;
-        document.getElementById('prev-location-target').textContent = locTarget;
-        document.getElementById('prev-role').textContent = role;
-        document.getElementById('prev-skills').textContent = skills;
-        document.getElementById('prev-abilities').textContent = abilities;
-        document.getElementById('prev-experience').textContent = experience;
-        document.getElementById('prev-education').textContent = education;
-        document.getElementById('prev-links').textContent = links;
-
-        // Handle Photo Preview
+        const photoInput = document.getElementById('profile_photo');
         const photoImg = document.getElementById('prev-photo-img');
-        if (photoInput.files && photoInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                photoImg.src = e.target.result;
-                photoImg.style.display = 'block';
-            }
-            reader.readAsDataURL(photoInput.files[0]);
-        } else {
-            photoImg.style.display = 'none';
-            photoImg.src = "";
-        }
+        if (photoInput && photoInput.files && photoInput.files[0]) {
+            const r = new FileReader(); r.onload = e => { photoImg.src = e.target.result; photoImg.classList.remove('hidden'); }; r.readAsDataURL(photoInput.files[0]);
+        } else if (photoImg) { photoImg.classList.add('hidden'); photoImg.src = ''; }
 
         document.getElementById('input-section').classList.add('hidden');
         document.getElementById('preview-section').classList.remove('hidden');
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }
 
     function editResume() {
         document.getElementById('preview-section').classList.add('hidden');
         document.getElementById('input-section').classList.remove('hidden');
-        nextStep(4); // Go back to last step
-        window.scrollTo(0,0);
+        nextStep(5);
+        window.scrollTo(0, 0);
     }
 
     function submitResume() {
+        if (!buildExperienceString()) { alert('Please fill in at least one experience.'); return; }
+        buildEducationString();
         const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        btn.innerHTML = 'AI is reviewing... <span class="spinner"></span>';
+        if (btn) { btn.disabled = true; btn.textContent = 'Loading...'; }
         document.getElementById('resumeForm').submit();
     }
 </script>

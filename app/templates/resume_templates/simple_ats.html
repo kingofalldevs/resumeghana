@@ -1,0 +1,37 @@
+<div class="resume-container" style="max-width: 800px; width: 100%; margin: 0 auto; font-family: Arial, sans-serif; color: #000; font-size: 11pt; overflow-wrap: break-word;">
+<style>
+.resume-container h1 { font-size: 22px; font-weight: bold; margin-bottom: 0.15rem; }
+.resume-container .role-title { font-size: 14px; font-weight: normal; color: #333; margin-bottom: 0.5rem; }
+.resume-container h2 { font-size: 12px; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; text-transform: uppercase; border-bottom: 1px solid #000; padding-bottom: 2px; }
+.resume-container .contact { font-size: 11px; margin-bottom: 0.5rem; }
+.resume-container .summary-text { margin-bottom: 0.5rem; line-height: 1.5; font-size: 11pt; }
+.resume-container .skill-tag { display: inline; }
+.resume-container .skills { margin: 0.25rem 0; font-size: 11pt; }
+.resume-container ul { margin: 0.25rem 0; padding-left: 1.2rem; }
+.resume-container li { margin-bottom: 0.2rem; line-height: 1.4; }
+.resume-container .career-value { margin-top: 0.5rem; line-height: 1.5; font-size: 11pt; }
+</style>
+<h1>{{ full_name }}</h1>
+{% if role %}<div class="role-title">{{ role }}</div>{% endif %}
+<div class="contact">
+    {% if email %}{{ email }}{% endif %}
+    {% if phone %} | {{ phone }}{% endif %}
+    {% if country %} | {{ country }}{% endif %}
+    {% if links %} | {{ links }}{% endif %}
+</div>
+{% if summary %}
+<h2>PROFESSIONAL SUMMARY</h2>
+<p class="summary-text">{{ summary }}</p>
+{% endif %}
+<h2>EXPERIENCE</h2>
+<div>{{ experience | safe }}</div>
+<h2>SKILLS</h2>
+<div>{{ skills | safe }}</div>
+<h2>EDUCATION</h2>
+<div>{{ education | safe }}</div>
+{% if certifications %}<h2>CERTIFICATIONS</h2><p>{{ certifications }}</p>{% endif %}
+{% if career_value %}
+<h2>CAREER OBJECTIVE</h2>
+<div class="career-value">{{ career_value }}</div>
+{% endif %}
+</div>

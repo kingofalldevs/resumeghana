@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold">Dashboard</h1>
+    <a href="{{ url_for('resume.builder') }}" class="bg-[#ff6600] text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition">+ Create New Resume</a>
+</div>
+
+<!-- Stats -->
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+        <h3 class="text-gray-600 text-sm font-medium mb-1">Total Resumes</h3>
+        <p class="text-3xl font-bold text-[#ff6600]">{{ resumes|length }}</p>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+        <h3 class="text-gray-600 text-sm font-medium mb-1">AI Tokens Used</h3>
+        <p class="text-3xl font-bold text-[#ff6600]">{{ total_tokens }}</p>
+    </div>
+</div>
+
+<!-- Resume Cards -->
+<div>
+    <h2 class="text-xl font-semibold mb-4">Your Resumes</h2>
+    {% if resumes %}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for r in resumes %}
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition">
+            <div class="p-6">
+                <h3 class="font-bold text-lg mb-2">{{ r.title }}</h3>
+                <p class="text-gray-500 text-sm mb-4">Template: {{ r.template_name }} · {{ r.updated_at.strftime('%b %d, %Y') }}</p>
+                <div class="flex gap-2">
+                    <a href="{{ url_for('resume.view', id=r.id) }}" class="text-[#ff6600] hover:opacity-80 font-medium text-sm transition">View</a>
+                    <a href="{{ url_for('resume.download', id=r.id) }}" class="text-[#ff6600] hover:opacity-80 font-medium text-sm transition">Download</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-white rounded-xl shadow-md p-12 text-center border border-gray-100">
+        <p class="text-gray-500 mb-4">No resumes yet. Create your first one!</p>
+        <a href="{{ url_for('resume.builder') }}" class="inline-block bg-[#ff6600] text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition">Create Resume</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

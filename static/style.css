@@ -1,7 +1,7 @@
 /* Modern Reset & Variables */
 :root {
-    --primary: #4f46e5; /* Indigo 600 */
-    --primary-hover: #4338ca;
+    --primary: #ff6600;
+    --primary-hover: #e65c00;
     --bg: #f3f4f6;      /* Gray 100 */
     --card-bg: #ffffff;
     --text-main: #111827; /* Gray 900 */
@@ -84,7 +84,7 @@ input, textarea {
 input:focus, textarea:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
     background: #fff;
 }
 
@@ -181,9 +181,9 @@ button { font-family: inherit; font-weight: 600; transition: all 0.2s; }
 /* Tags */
 .tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .tag {
-    background: #eef2ff; color: var(--primary);
+    background: rgba(255, 102, 0, 0.08); color: var(--primary);
     padding: 0.35rem 0.85rem; border-radius: 999px;
-    font-size: 0.875rem; font-weight: 500; border: 1px solid #e0e7ff;
+    font-size: 0.875rem; font-weight: 500; border: 1px solid rgba(255, 102, 0, 0.2);
 }
 
 /* Table */
@@ -225,24 +225,42 @@ button { font-family: inherit; font-weight: 600; transition: all 0.2s; }
     .button-group { flex-direction: column; }
 }
 
-/* Tailored Resume Paper */
+/* Tailored Resume Paper — responsive on screen, A4 on print */
 .resume-paper {
     background: white;
-    width: 210mm; /* A4 Width */
-    min-height: 297mm; /* A4 Height */
-    padding: 20mm; /* Standard margins */
-    margin: 2rem auto;
+    width: 100%;
+    max-width: 210mm;
+    min-height: auto;
+    padding: 1.5rem;
+    margin: 1rem auto;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border);
     color: #111;
     box-sizing: border-box;
-    font-size: 11pt;
-    line-height: 1.4;
+    font-size: 10pt;
+    line-height: 1.5;
     position: relative;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Scale up on larger screens */
+@media (min-width: 640px) {
+    .resume-paper {
+        padding: 12mm;
+        font-size: 10.5pt;
+    }
+}
+@media (min-width: 800px) {
+    .resume-paper {
+        padding: 20mm;
+        font-size: 11pt;
+        line-height: 1.4;
+    }
 }
 
 .resume-paper h1 {
-    font-size: 22pt;
+    font-size: clamp(16pt, 4vw, 22pt);
     font-weight: 700;
     margin-bottom: 0.5rem;
     color: #000;
@@ -251,10 +269,10 @@ button { font-family: inherit; font-weight: 600; transition: all 0.2s; }
 }
 
 .resume-paper h2 {
-    font-size: 14pt;
+    font-size: clamp(11pt, 2.5vw, 14pt);
     font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
     border-bottom: 1px solid #000;
     padding-bottom: 0.25rem;
     text-transform: uppercase;
@@ -262,9 +280,9 @@ button { font-family: inherit; font-weight: 600; transition: all 0.2s; }
 }
 
 .resume-paper h3 {
-    font-size: 12pt;
+    font-size: clamp(10pt, 2vw, 12pt);
     font-weight: 700;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     margin-bottom: 0.25rem;
     border: none;
     text-transform: none;
@@ -275,35 +293,46 @@ button { font-family: inherit; font-weight: 600; transition: all 0.2s; }
 .resume-paper ul { padding-left: 1.2rem; margin-top: 0.25rem; margin-bottom: 1rem; }
 .resume-paper li { margin-bottom: 0.25rem; }
 
-/* Photo Handling */
+/* Photo Handling — responsive */
 .resume-photo {
     float: right;
-    width: 35mm;
-    height: 45mm;
+    width: 25mm;
+    height: 33mm;
     object-fit: cover;
     border: 1px solid #ddd;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
+    margin-left: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+@media (min-width: 640px) {
+    .resume-photo { width: 35mm; height: 45mm; margin-left: 1rem; margin-bottom: 1rem; }
 }
 
 .resume-paper[contenteditable]:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: var(--shadow-md), 0 0 0 4px rgba(79, 70, 229, 0.1);
+    box-shadow: var(--shadow-md), 0 0 0 4px rgba(255, 102, 0, 0.1);
 }
 
+/* Print: restore A4 sizing */
 @media print {
     body { background: white; }
-    nav, .results-header, footer, .btn-primary, .btn-secondary, .alert { display: none !important; }
+    nav, .results-header, footer, .btn-primary, .btn-secondary, .alert, .resume-actions, .resume-tip { display: none !important; }
     .container { max-width: 100%; padding: 0; margin: 0; }
     .resume-paper {
         width: 100%;
+        max-width: 100%;
         margin: 0;
         padding: 0;
         box-shadow: none;
         border: none;
         min-height: auto;
+        font-size: 11pt;
+        line-height: 1.4;
     }
+    .resume-paper h1 { font-size: 22pt; }
+    .resume-paper h2 { font-size: 14pt; }
+    .resume-paper h3 { font-size: 12pt; }
+    .resume-photo { width: 35mm; height: 45mm; }
     @page {
         size: A4;
         margin: 20mm;

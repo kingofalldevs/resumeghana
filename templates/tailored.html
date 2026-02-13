@@ -1,19 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="results-header">
-    <h2>Your Tailored Resume</h2>
-    <div class="button-group" style="margin-top: 0;">
-        <a href="{{ url_for('builder') }}" class="btn-secondary">Start Over</a>
-        <button onclick="window.print()" class="btn-primary">🖨️ Print / Save as PDF</button>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 resume-actions">
+    <h2 class="text-xl sm:text-2xl font-bold">Your Tailored Resume</h2>
+    <div class="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
+        {% if current_user.is_authenticated %}
+        <form method="POST" action="{{ url_for('resume.save') }}" class="inline">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="px-3 py-2 sm:px-4 sm:py-2 border border-[#ff6600] text-[#ff6600] rounded-lg font-semibold hover:bg-[#ff6600]/10 transition text-sm sm:text-base">💾 Save</button>
+        </form>
+        {% endif %}
+        <a href="{{ url_for('resume.builder') }}" class="px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm sm:text-base">Start Over</a>
+        <button onclick="window.print()" class="px-3 py-2 sm:px-4 sm:py-2 bg-[#ff6600] text-white rounded-lg font-semibold hover:opacity-90 transition text-sm sm:text-base">🖨️ Print / PDF</button>
     </div>
 </div>
 
-<div class="resume-paper" contenteditable="true">
+<div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mx-auto resume-paper" contenteditable="true">
     {{ content | safe }}
 </div>
 
-<div style="text-align: center; margin-top: 2rem; color: var(--text-muted);">
-    <p>Tip: Click anywhere on the resume to edit text. Then print/save as PDF.</p>
-</div>
+<p class="text-center mt-4 sm:mt-6 text-gray-500 text-xs sm:text-sm resume-tip">Tip: Click anywhere on the resume to edit. Then print/save as PDF.</p>
 {% endblock %}

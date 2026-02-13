@@ -1,0 +1,36 @@
+<div class="resume-container" style="max-width: 800px; width: 100%; margin: 0 auto; font-family: 'Inter', sans-serif; color: #1a1a1a; overflow-wrap: break-word;">
+<style>
+.resume-container h1 { font-size: 28px; font-weight: 700; color: #2563eb; margin-bottom: 0.25rem; }
+.resume-container .role-title { font-size: 16px; font-weight: 500; color: #64748b; margin-bottom: 0.75rem; }
+.resume-container h2 { font-size: 14px; font-weight: 600; color: #2c3e50; border-bottom: 2px solid #2563eb; padding-bottom: 4px; margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.resume-container .contact { color: #64748b; font-size: 14px; margin-bottom: 1rem; }
+.resume-container .summary-text { line-height: 1.6; margin-bottom: 0.5rem; color: #374151; font-size: 14px; }
+.resume-container .skill-tag { display: inline-block; background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 6px; margin: 2px 4px 2px 0; font-size: 13px; }
+.resume-container ul { margin: 0.5rem 0; padding-left: 1.2rem; }
+.resume-container li { margin-bottom: 0.35rem; line-height: 1.5; font-size: 14px; }
+.resume-container .career-value { background: #f8fafc; border-left: 3px solid #2563eb; padding: 12px 16px; margin-top: 0.75rem; line-height: 1.6; font-size: 14px; color: #374151; border-radius: 0 6px 6px 0; }
+</style>
+<h1>{{ full_name }}</h1>
+{% if role %}<div class="role-title">{{ role }}</div>{% endif %}
+<div class="contact">
+    {% if email %}{{ email }}{% endif %}
+    {% if phone %} | {{ phone }}{% endif %}
+    {% if country %} | {{ country }}{% endif %}
+    {% if links %}<br>{{ links }}{% endif %}
+</div>
+{% if summary %}
+<h2>Professional Summary</h2>
+<p class="summary-text">{{ summary }}</p>
+{% endif %}
+<h2>Experience</h2>
+<div>{{ experience | safe }}</div>
+<h2>Skills</h2>
+<div>{{ skills | safe }}</div>
+<h2>Education</h2>
+<div>{{ education | safe }}</div>
+{% if certifications %}<h2>Certifications</h2><p style="font-size:14px;">{{ certifications }}</p>{% endif %}
+{% if career_value %}
+<h2>Career Objective & Value</h2>
+<div class="career-value">{{ career_value }}</div>
+{% endif %}
+</div>

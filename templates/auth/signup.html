@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .auth-wrap {
+        max-width: 980px;
+        margin: 2.5rem auto 0;
+        padding: 0 0.75rem;
+    }
+
+    .auth-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        align-items: stretch;
+    }
+
+    .auth-panel,
+    .auth-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 18px 34px rgba(255, 102, 0, 0.12);
+    }
+
+    .auth-panel {
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-panel::after {
+        content: "";
+        position: absolute;
+        width: 170px;
+        height: 170px;
+        background: rgba(255, 102, 0, 0.12);
+        right: -40px;
+        top: -40px;
+        border-radius: 999px;
+        pointer-events: none;
+    }
+
+    .auth-card {
+        padding: 1.6rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+        transform-origin: center;
+    }
+
+    .auth-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 22px 36px rgba(255, 102, 0, 0.16);
+    }
+
+    .auth-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #ff6600;
+        background: rgba(255, 102, 0, 0.1);
+        border-radius: 999px;
+        padding: 0.4rem 0.75rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .auth-title {
+        color: #ff6600;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+    }
+
+    .auth-sub {
+        color: rgba(255, 102, 0, 0.75);
+    }
+
+    .auth-input {
+        border: 1px solid rgba(255, 102, 0, 0.18);
+        color: #ff6600;
+        background: #fff;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .auth-input::placeholder {
+        color: rgba(255, 102, 0, 0.45);
+    }
+
+    .auth-input:focus {
+        outline: none;
+        border-color: #ff6600;
+        box-shadow: 0 0 0 4px rgba(255, 102, 0, 0.12);
+    }
+
+    .auth-btn {
+        background: #ff6600;
+        color: #fff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .auth-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 18px rgba(255, 102, 0, 0.24);
+    }
+
+    .auth-link {
+        color: #ff6600;
+        font-weight: 700;
+        position: relative;
+    }
+
+    .auth-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        background: #ff6600;
+        transform: scaleX(0.35);
+        transform-origin: left;
+        transition: transform 0.2s ease;
+    }
+
+    .auth-link:hover::after {
+        transform: scaleX(1);
+    }
+
+    .auth-card.is-transitioning {
+        opacity: 0;
+        transform: translateX(-20px) scale(0.985);
+    }
+
+    @media (min-width: 900px) {
+        .auth-grid {
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 1.5rem;
+        }
+
+        .auth-panel,
+        .auth-card {
+            min-height: 600px;
+        }
+
+        .auth-panel {
+            padding: 2rem;
+            order: 2;
+        }
+
+        .auth-card {
+            padding: 2rem;
+            order: 1;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="auth-wrap">
+    <div class="auth-grid">
+        <div class="auth-card" id="auth-card">
+            <h1 class="auth-title text-2xl sm:text-3xl text-center mb-2">Create Account</h1>
+            <p class="auth-sub text-center mb-6">Start building smarter resumes in minutes.</p>
+            <form method="POST" action="{{ url_for('auth.signup') }}" class="space-y-4">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div>
+                    <label class="block text-sm font-semibold text-[#ff6600] mb-1">Full Name</label>
+                    <input type="text" name="full_name" required class="auth-input w-full px-4 py-3 rounded-lg" placeholder="John Doe">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-[#ff6600] mb-1">Email</label>
+                    <input type="email" name="email" required class="auth-input w-full px-4 py-3 rounded-lg" placeholder="john@example.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-[#ff6600] mb-1">Password (min 8 characters)</label>
+                    <input type="password" name="password" required minlength="8" class="auth-input w-full px-4 py-3 rounded-lg" placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-btn w-full py-3 rounded-lg font-semibold">Sign Up</button>
+            </form>
+            <p class="mt-5 text-center auth-sub">
+                Already have an account?
+                <a href="{{ url_for('auth.login') }}" class="auth-link" data-auth-switch>Login</a>
+            </p>
+        </div>
+
+        <aside class="auth-panel">
+            <span class="auth-badge"><i class="fas fa-rocket"></i> New Here</span>
+            <h2 class="auth-title text-3xl sm:text-4xl mb-4">Create your account and launch your next opportunity.</h2>
+            <p class="auth-sub mb-6">Use a guided flow to craft job-ready resumes, apply faster, and track versions from your dashboard.</p>
+            <img src="{{ url_for('static', filename='pexels-thirdman-5319259.jpg') }}"
+                 alt="Resume editing experience preview"
+                 class="w-full h-56 sm:h-72 object-cover rounded-2xl">
+            <div class="mt-6 grid grid-cols-2 gap-3">
+                <div class="bg-[#ff6600]/10 rounded-xl p-3">
+                    <p class="text-[#ff6600] font-black text-lg">4+</p>
+                    <p class="text-xs auth-sub">premium templates</p>
+                </div>
+                <div class="bg-[#ff6600]/10 rounded-xl p-3">
+                    <p class="text-[#ff6600] font-black text-lg">AI</p>
+                    <p class="text-xs auth-sub">guided writing help</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function () {
+        const switchLink = document.querySelector("[data-auth-switch]");
+        const authCard = document.getElementById("auth-card");
+
+        if (!switchLink || !authCard) {
+            return;
+        }
+
+        switchLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            authCard.classList.add("is-transitioning");
+            window.setTimeout(function () {
+                window.location.href = switchLink.href;
+            }, 220);
+        });
+    }());
+</script>
+{% endblock %}
